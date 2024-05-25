@@ -76,14 +76,18 @@ function start() {
                     const chunk = grid.slice(i, i + chunkSize);
                     await echo.whisper("client-" + event.idU, {
                         grid: JSON.stringify(chunk),
-                        canvasHeight: canvasHeight,
-                        canvasWidth: canvasWidth,
                     });
                 }
                 await echo.whisper("client-" + event.idU, {
                     isDone: true,
+                    canvasHeight: canvasHeight,
+                    canvasWidth: canvasWidth,
+                    gridSize: gridSize,
+                    rows: rows,
+                    cols: cols,
                 });
             }).listenForWhisper("send-client", (event) => {
+                grid[event.clickedRow][event.clickedCol] = event.selectedColor;
                 context.fillStyle = event.selectedColor;
                 context.fillRect(
                     event.col,
@@ -126,14 +130,14 @@ function start() {
                     gridSize,
                     gridSize
                 );
-                await fetch(
-                    `${url}/api/send-pixel?clickedRow=${clickedRow}&clickedCol=${clickedCol}&selectedColor=${selectedColor.replace(
-                        "#",
-                        ""
-                    )}`
-                )
-                    .then((res) => {})
-                    .catch((err) => location.reload());
+                // await fetch(
+                //     `${url}/api/send-pixel?clickedRow=${clickedRow}&clickedCol=${clickedCol}&selectedColor=${selectedColor.replace(
+                //         "#",
+                //         ""
+                //     )}`
+                // )
+                //     .then((res) => {})
+                //     .catch((err) => location.reload());
                 await echo.whisper("send-client", {
                     col: clickedCol * gridSize,
                     row: clickedRow * gridSize,
@@ -142,6 +146,8 @@ function start() {
                     idU: idU,
                     mouseX: mouseX,
                     mouseY: mouseY,
+                    clickedRow: clickedRow,
+                    clickedCol: clickedCol,
                 });
             });
 
