@@ -47,8 +47,12 @@ function start() {
         withCredentials: true,
     });
     echo = window.Echo.join("pixel")
-        .here((users) => {})
-        .joining((user) => {})
+        .here((users) => {
+            console.log("U here ", users);
+        })
+        .joining((user) => {
+            console.log("U join ", user);
+        })
         .leaving(async (user) => {});
     window.onload = async function () {
         await fetch(`${url}/api/get-pixel`)
@@ -66,7 +70,20 @@ function start() {
             .catch((err) => {});
 
         function run() {
-            echo.listenForWhisper("send-client", (event) => {
+            echo.listenForWhisper("call", async (event) => {
+                const chunkSize = 50;
+                for (let i = 0; i < grid.length; i += chunkSize) {
+                    const chunk = grid.slice(i, i + chunkSize);
+                    await echo.whisper("client-" + event.idU, {
+                        grid: JSON.stringify(chunk),
+                        canvasHeight: canvasHeight,
+                        canvasWidth: canvasWidth,
+                    });
+                }
+                await echo.whisper("client-" + event.idU, {
+                    isDone: true,
+                });
+            }).listenForWhisper("send-client", (event) => {
                 context.fillStyle = event.selectedColor;
                 context.fillRect(
                     event.col,
@@ -74,7 +91,6 @@ function start() {
                     event.gridSize,
                     event.gridSize
                 );
-
                 // mouse
                 if (!document.getElementById(event.idU))
                     createCursor(event.idU);
