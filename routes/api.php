@@ -27,7 +27,7 @@ Route::get('get-pixel', function () {
     $cols = $canvasWidth / $gridSize;
 
     if (Cache::getRedis()->exists("pixel")) {
-        $data =  (Cache::getRedis()->get("pixel"));
+        $data = json_decode(Cache::getRedis()->get("pixel"));
         return response()->json([
             "data" => $data,
             "gridSize" =>  $gridSize,
@@ -46,7 +46,7 @@ Route::get('get-pixel', function () {
     }
     Cache::getRedis()->set("pixel", json_encode($data), "ex", 6 * 30 * 24 * 60 * 60);
     return response()->json([
-        "data" => json_encode($data),
+        "data" => $data,
         "gridSize" =>  $gridSize,
         "canvasHeight" =>  $canvasHeight,
         "canvasWidth" =>  $canvasWidth,
