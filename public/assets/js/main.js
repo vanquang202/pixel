@@ -86,7 +86,7 @@ function start() {
                     rows: rows,
                     cols: cols,
                 });
-            }).listenForWhisper("send-client", async (event) => {
+            }).listenForWhisper("send-client", (event) => {
                 grid[event.clickedRow][event.clickedCol] = event.selectedColor;
                 context.fillStyle = event.selectedColor;
                 context.fillRect(
