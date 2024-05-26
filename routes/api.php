@@ -41,7 +41,7 @@ Route::get('get-pixel', function () {
     for ($row = 0; $row < $rows; $row++) {
         $data[$row] = [];
         for ($col = 0; $col < $cols; $col++) {
-            $data[$row][$col] = false;
+            $data[$row][$col] = "#FFFFFF";
         }
     }
     Cache::getRedis()->set("pixel", json_encode($data), "ex", 6 * 30 * 24 * 60 * 60);
