@@ -70,53 +70,42 @@ function start() {
             .catch((err) => {});
 
         function run() {
-            echo.listenForWhisper("ping", (event) => {
-                console.log(event);
-            })
-                .listenForWhisper("call", async (event) => {
-                    const chunkSize = 50;
-                    for (let i = 0; i < grid.length; i += chunkSize) {
-                        const chunk = grid.slice(i, i + chunkSize);
-                        await echo.whisper("client-" + event.idU, {
-                            grid: JSON.stringify(chunk),
-                        });
-                    }
+            echo.listenForWhisper("call", async (event) => {
+                const chunkSize = 50;
+                for (let i = 0; i < grid.length; i += chunkSize) {
+                    const chunk = grid.slice(i, i + chunkSize);
                     await echo.whisper("client-" + event.idU, {
-                        isDone: true,
-                        canvasHeight: canvasHeight,
-                        canvasWidth: canvasWidth,
-                        gridSize: gridSize,
-                        rows: rows,
-                        cols: cols,
+                        grid: JSON.stringify(chunk),
                     });
-                })
-                .listenForWhisper("send-client", (event) => {
-                    grid[event.clickedRow][event.clickedCol] =
-                        event.selectedColor;
-                    context.fillStyle = event.selectedColor;
-                    context.fillRect(
-                        event.col,
-                        event.row,
-                        event.gridSize,
-                        event.gridSize
-                    );
-                    // mouse
-                    if (!document.getElementById(event.idU))
-                        createCursor(event.idU);
-                    const cursor = document.getElementById(event.idU);
-                    cursor.style.setProperty("--mouseX", event.mouseX + "px");
-                    cursor.style.setProperty("--mouseY", event.mouseY + "px");
-                    setTimeout(() => {
-                        cursor.remove();
-                    }, 1000);
+                }
+                await echo.whisper("client-" + event.idU, {
+                    isDone: true,
+                    canvasHeight: canvasHeight,
+                    canvasWidth: canvasWidth,
+                    gridSize: gridSize,
+                    rows: rows,
+                    cols: cols,
                 });
-            setInterval(() => {
-                let event = new MouseEvent("mousedown", {
-                    clientX: 0,
-                    clientY: 0,
-                });
-                canvas.dispatchEvent(event);
-            }, 5000);
+            }).listenForWhisper("send-client", async (event) => {
+                grid[event.clickedRow][event.clickedCol] = event.selectedColor;
+                context.fillStyle = event.selectedColor;
+                context.fillRect(
+                    event.col,
+                    event.row,
+                    event.gridSize,
+                    event.gridSize
+                );
+                // mouse
+                if (!document.getElementById(event.idU))
+                    createCursor(event.idU);
+                const cursor = document.getElementById(event.idU);
+                cursor.style.setProperty("--mouseX", event.mouseX + "px");
+                cursor.style.setProperty("--mouseY", event.mouseY + "px");
+                setTimeout(() => {
+                    cursor.remove();
+                }, 1000);
+            });
+
             let colorPicker = document.getElementById("colorPicker");
             let selectedColor = colorPicker.value;
             colorPicker.addEventListener("change", function (event) {
