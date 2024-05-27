@@ -21,3 +21,6 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 Broadcast::channel('pixel', function ($user) {
     return $user;
 });
+Broadcast::channel('map_pixel', function ($user) {
+    return $user;
+});

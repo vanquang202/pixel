@@ -51,7 +51,7 @@ function start() {
     //     withCredentials: true,
     // });
     echo = window.Echo.join("pixel");
-    echo_two = window.Echo.join("pixel");
+    echo_two = window.Echo.join("map_pixel");
     window.onload = async function () {
         grid = [];
         gridSize = 5;
