@@ -55,19 +55,25 @@ function start() {
         })
         .leaving(async (user) => {});
     window.onload = async function () {
-        await fetch(`${url}/api/get-pixel`)
-            .then((res) => res.json())
-            .then(async (res) => {
-                grid = res.data;
-                gridSize = res.gridSize;
-                rows = res.rows;
-                cols = res.cols;
-                canvasHeight = res.canvasHeight;
-                canvasWidth = res.canvasWidth;
-                await run();
-                document.getElementById("loading").style.display = "none";
-            })
-            .catch((err) => {});
+        grid = [];
+        gridSize = 5;
+        canvasHeight = 12000;
+        canvasWidth = 12000;
+        rows = canvasHeight / gridSize;
+        cols = canvasWidth / gridSize;
+        // await fetch(`${url}/api/get-pixel`)
+        //     .then((res) => res.json())
+        //     .then(async (res) => {
+        //         grid = res.data;
+        //         gridSize = res.gridSize;
+        //         rows = res.rows;
+        //         cols = res.cols;
+        //         canvasHeight = res.canvasHeight;
+        //         canvasWidth = res.canvasWidth;
+        //         await run();
+        //         document.getElementById("loading").style.display = "none";
+        //     })
+        //     .catch((err) => {});
 
         function run() {
             echo.listenForWhisper("call", (event) => {
@@ -152,6 +158,7 @@ function start() {
                 for (let row = 0; row < rows; row++) {
                     for (let col = 0; col < cols; col++) {
                         if (grid[row][col]) {
+                            grid[row][col];
                             context.fillStyle = grid[row][col];
                             context.fillRect(
                                 col * gridSize,
@@ -162,6 +169,8 @@ function start() {
                         }
                     }
                 }
+
+                document.getElementById("loading").style.display = "none";
             }
             drawGrid();
         }

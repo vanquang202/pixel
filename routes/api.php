@@ -26,7 +26,7 @@ Route::get('get-pixel', function () {
     $canvasWidth = 12000;
     $rows = $canvasHeight / $gridSize;
     $cols = $canvasWidth / $gridSize;
-
+    dd($rows);
     // $data =  [];
     // for ($row = 0; $row < $rows; $row++) {
     //     $data[$row] = [];
