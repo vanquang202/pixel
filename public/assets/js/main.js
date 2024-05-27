@@ -57,25 +57,22 @@ function init() {
             run();
 
             function run() {
-                echo_two.listenForWhisper("call", (event) => {
-                    async function sendData() {
-                        const chunkSize = 50;
-                        for (let i = 0; i < grid.length; i += chunkSize) {
-                            const chunk = grid.slice(i, i + chunkSize);
-                            await echo_two.whisper("client-" + event.idU, {
-                                grid: JSON.stringify(chunk),
-                            });
-                        }
+                echo_two.listenForWhisper("call", async (event) => {
+                    const chunkSize = 50;
+                    for (let i = 0; i < grid.length; i += chunkSize) {
+                        const chunk = grid.slice(i, i + chunkSize);
                         await echo_two.whisper("client-" + event.idU, {
-                            isDone: true,
-                            canvasHeight: canvasHeight,
-                            canvasWidth: canvasWidth,
-                            gridSize: gridSize,
-                            rows: rows,
-                            cols: cols,
+                            grid: JSON.stringify(chunk),
                         });
                     }
-                    sendData();
+                    await echo_two.whisper("client-" + event.idU, {
+                        isDone: true,
+                        canvasHeight: canvasHeight,
+                        canvasWidth: canvasWidth,
+                        gridSize: gridSize,
+                        rows: rows,
+                        cols: cols,
+                    });
                 });
                 echo.listenForWhisper("send-client", (event) => {
                     grid[event.clickedRow][event.clickedCol] =
