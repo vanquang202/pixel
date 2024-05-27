@@ -153,18 +153,24 @@ function start() {
             //         clickedCol: clickedCol,
             //     });
             // });
+            let cesspro = 0;
             function timer(ms) {
                 return new Promise((res) => setTimeout(res, ms));
             }
             async function task(row, col) {
-                await timer(500);
-                console.log(`Task ${row} - ${col} done!`);
+                if (cesspro == 50000) {
+                    cesspro = 0;
+                    console.log("Task process : " + (row / rows) * 100 + " %");
+
+                    await timer(1000);
+                }
             }
             async function drawGrid() {
                 context.clearRect(0, 0, canvasWidth, canvasHeight);
                 for (let row = 0; row < rows; row++) {
                     grid[row] = [];
                     for (let col = 0; col < cols; col++) {
+                        cesspro++;
                         await task(row, col);
                         // grid[row][col] = "#FFFFFF";
                         // context.fillStyle = grid[row][col];
