@@ -46,7 +46,6 @@ function init() {
             withCredentials: true,
         });
         echo = window.Echo.join("pixel");
-        echo_two = window.Echo.join("map_pixel");
         window.onload = async function () {
             grid = [];
             gridSize = 5;
@@ -57,15 +56,15 @@ function init() {
             run();
 
             function run() {
-                echo_two.listenForWhisper("call", async (event) => {
+                echo.listenForWhisper("call", async (event) => {
                     const chunkSize = 50;
                     for (let i = 0; i < grid.length; i += chunkSize) {
                         const chunk = grid.slice(i, i + chunkSize);
-                        await echo_two.whisper("client-" + event.idU, {
+                        await echo.whisper("client-" + event.idU, {
                             grid: JSON.stringify(chunk),
                         });
                     }
-                    await echo_two.whisper("client-" + event.idU, {
+                    await echo.whisper("client-" + event.idU, {
                         isDone: true,
                         canvasHeight: canvasHeight,
                         canvasWidth: canvasWidth,
@@ -84,7 +83,7 @@ function init() {
                     return new Promise((res) => setTimeout(res, ms));
                 }
                 async function task(row, col) {
-                    if (cesspro == 50000) {
+                    if (cesspro == 100000) {
                         cesspro = 0;
                         console.log(
                             "Task process : " + (row / rows) * 100 + " %"
