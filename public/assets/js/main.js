@@ -157,6 +157,7 @@ function start() {
             function drawGrid() {
                 context.clearRect(0, 0, canvasWidth, canvasHeight);
                 for (let row = 0; row < rows; row++) {
+                    grid[row] = [];
                     for (let col = 0; col < cols; col++) {
                         console.log(grid[row][col]);
                         if (grid[row][col]) {
