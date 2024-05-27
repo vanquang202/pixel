@@ -57,6 +57,8 @@ function init() {
 
             function run() {
                 echo.listenForWhisper("call", async (event) => {
+                    console.log("Client get : ", event);
+
                     const chunkSize = 50;
                     for (let i = 0; i < grid.length; i += chunkSize) {
                         const chunk = grid.slice(i, i + chunkSize);
