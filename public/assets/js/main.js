@@ -153,57 +153,29 @@ function start() {
             //         clickedCol: clickedCol,
             //     });
             // });
-
-            function drawGrid() {
+            function timer(ms) {
+                return new Promise((res) => setTimeout(res, ms));
+            }
+            async function task(row, col) {
+                await timer(500);
+                console.log(`Task ${row} - ${col} done!`);
+            }
+            async function drawGrid() {
                 context.clearRect(0, 0, canvasWidth, canvasHeight);
-                // for (let row = 0; row < rows; row++) {
-                //     grid[row] = [];
-                //     for (let col = 0; col < cols; col++) {
-                //         console.log(grid[row][col]);
-
-                //         grid[row][col] = "#FFFFFF";
-                //         context.fillStyle = grid[row][col];
-                //         context.fillRect(
-                //             col * gridSize,
-                //             row * gridSize,
-                //             gridSize,
-                //             gridSize
-                //         );
-                //     }
-                // }
-
-                function processGrid(row, col) {
-                    if (row >= rows) {
-                        document.getElementById("loading").style.display =
-                            "none";
-                        // Kết thúc lặp
-                        return;
+                for (let row = 0; row < rows; row++) {
+                    grid[row] = [];
+                    for (let col = 0; col < cols; col++) {
+                        await task(row, col);
+                        // grid[row][col] = "#FFFFFF";
+                        // context.fillStyle = grid[row][col];
+                        // context.fillRect(
+                        //     col * gridSize,
+                        //     row * gridSize,
+                        //     gridSize,
+                        //     gridSize
+                        // );
                     }
-                    if (!grid[row]) grid[row] = [];
-                    grid[row][col] = "#FFFFFF";
-                    console.log(grid);
-                    context.fillStyle = grid[row][col];
-                    context.fillRect(
-                        col * gridSize,
-                        row * gridSize,
-                        gridSize,
-                        gridSize
-                    );
-
-                    // Tạm dừng trong 100ms trước khi tiếp tục với ô tiếp theo
-                    setTimeout(function () {
-                        if (col + 1 < cols) {
-                            // Xử lý ô tiếp theo trong cùng hàng
-                            processGrid(row, col + 1);
-                        } else {
-                            // Chuyển sang hàng tiếp theo
-                            processGrid(row + 1, 0);
-                        }
-                    }, 200);
                 }
-
-                // Bắt đầu lặp từ ô đầu tiên
-                processGrid(0, 0);
             }
             drawGrid();
         }
