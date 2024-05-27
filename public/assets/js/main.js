@@ -85,7 +85,7 @@ function init() {
                     return new Promise((res) => setTimeout(res, ms));
                 }
                 async function task(row, col) {
-                    if (cesspro == 100000) {
+                    if (cesspro == 200000) {
                         cesspro = 0;
                         console.log(
                             "Task process : " + (row / rows) * 100 + " %"
