@@ -27,17 +27,6 @@ Route::get('get-pixel', function () {
     $rows = $canvasHeight / $gridSize;
     $cols = $canvasWidth / $gridSize;
 
-    if (Cache::getRedis()->exists("pixel")) {
-        $data = json_decode(Cache::getRedis()->get("pixel"));
-        return response()->json([
-            "data" => $data,
-            "gridSize" =>  $gridSize,
-            "canvasHeight" =>  $canvasHeight,
-            "canvasWidth" =>  $canvasWidth,
-            "rows" =>  $rows,
-            "cols" =>  $cols,
-        ]);
-    }
     $data =  [];
     for ($row = 0; $row < $rows; $row++) {
         $data[$row] = [];
@@ -45,7 +34,6 @@ Route::get('get-pixel', function () {
             $data[$row][$col] = "#FFFFFF";
         }
     }
-    Cache::getRedis()->set("pixel", json_encode($data), "ex", 6 * 30 * 24 * 60 * 60);
     return response()->json([
         "data" => $data,
         "gridSize" =>  $gridSize,
@@ -55,8 +43,8 @@ Route::get('get-pixel', function () {
         "cols" =>  $cols,
     ]);
 });
-Route::get('send-pixel', function () {
-    $data = json_decode(Cache::getRedis()->get("pixel"));
-    $data[request()->clickedRow][request()->clickedCol] = "#" . request()->selectedColor;
-    Cache::getRedis()->set("pixel", json_encode($data), "ex", 6 * 30 * 24 * 60 * 60);
-});
+// Route::get('send-pixel', function () {
+//     $data = json_decode(Cache::getRedis()->get("pixel"));
+//     $data[request()->clickedRow][request()->clickedCol] = "#" . request()->selectedColor;
+//     Cache::getRedis()->set("pixel", json_encode($data), "ex", 6 * 30 * 24 * 60 * 60);
+// });
