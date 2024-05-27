@@ -27,15 +27,16 @@ Route::get('get-pixel', function () {
     $rows = $canvasHeight / $gridSize;
     $cols = $canvasWidth / $gridSize;
 
-    $data =  [];
-    for ($row = 0; $row < $rows; $row++) {
-        $data[$row] = [];
-        for ($col = 0; $col < $cols; $col++) {
-            $data[$row][$col] = "#FFFFFF";
-        }
-    }
+    // $data =  [];
+    // for ($row = 0; $row < $rows; $row++) {
+    //     $data[$row] = [];
+    //     for ($col = 0; $col < $cols; $col++) {
+    //         $data[$row][$col] = "#FFFFFF";
+    //     }
+    // }
+    // file_put_contents("pixel.txt", json_encode($data));
     return response()->json([
-        "data" => $data,
+        "data" => json_decode(file_get_contents("pixel.txt")),
         "gridSize" =>  $gridSize,
         "canvasHeight" =>  $canvasHeight,
         "canvasWidth" =>  $canvasWidth,
