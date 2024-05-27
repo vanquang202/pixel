@@ -20,9 +20,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('get-pixel', function () {
+    ini_set('memory_limit', '-1');
     $gridSize = 5;
-    $canvasHeight = 3000;
-    $canvasWidth = 8000;
+    $canvasHeight = 12000;
+    $canvasWidth = 12000;
     $rows = $canvasHeight / $gridSize;
     $cols = $canvasWidth / $gridSize;
 
