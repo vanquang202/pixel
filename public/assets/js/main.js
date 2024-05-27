@@ -45,11 +45,6 @@ function start() {
         host: `https://adpixel.jimdev.id.vn`,
         withCredentials: true,
     });
-    // window.Echo_Two = new Echo({
-    //     broadcaster: "socket.io",
-    //     host: `https://adpixel.jimdev.id.vn`,
-    //     withCredentials: true,
-    // });
     echo = window.Echo.join("pixel");
     echo_two = window.Echo.join("map_pixel");
     window.onload = async function () {
@@ -67,11 +62,11 @@ function start() {
                     const chunkSize = 50;
                     for (let i = 0; i < grid.length; i += chunkSize) {
                         const chunk = grid.slice(i, i + chunkSize);
-                        await echo.whisper("client-" + event.idU, {
+                        await echo_two.whisper("client-" + event.idU, {
                             grid: JSON.stringify(chunk),
                         });
                     }
-                    await echo.whisper("client-" + event.idU, {
+                    await echo_two.whisper("client-" + event.idU, {
                         isDone: true,
                         canvasHeight: canvasHeight,
                         canvasWidth: canvasWidth,
