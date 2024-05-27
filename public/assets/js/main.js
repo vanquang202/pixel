@@ -180,7 +180,7 @@ function start() {
                         // );
                     }
                 }
-                await document.getElementById("loading").style.display = "none";
+                document.getElementById("loading").style.display = "none";
             }
             drawGrid();
         }
