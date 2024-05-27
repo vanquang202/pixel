@@ -96,26 +96,25 @@ function start() {
                     });
                 }
                 sendData();
+            }).listenForWhisper("send-client", (event) => {
+                grid[event.clickedRow][event.clickedCol] = event.selectedColor;
+                context.fillStyle = event.selectedColor;
+                context.fillRect(
+                    event.col,
+                    event.row,
+                    event.gridSize,
+                    event.gridSize
+                );
+                // mouse
+                // if (!document.getElementById(event.idU))
+                //     createCursor(event.idU);
+                // const cursor = document.getElementById(event.idU);
+                // cursor.style.setProperty("--mouseX", event.mouseX + "px");
+                // cursor.style.setProperty("--mouseY", event.mouseY + "px");
+                // setTimeout(() => {
+                //     cursor.remove();
+                // }, 1000);
             });
-            // .listenForWhisper("send-client", (event) => {
-            //     grid[event.clickedRow][event.clickedCol] = event.selectedColor;
-            //     context.fillStyle = event.selectedColor;
-            //     context.fillRect(
-            //         event.col,
-            //         event.row,
-            //         event.gridSize,
-            //         event.gridSize
-            //     );
-            //     // mouse
-            //     if (!document.getElementById(event.idU))
-            //         createCursor(event.idU);
-            //     const cursor = document.getElementById(event.idU);
-            //     cursor.style.setProperty("--mouseX", event.mouseX + "px");
-            //     cursor.style.setProperty("--mouseY", event.mouseY + "px");
-            //     setTimeout(() => {
-            //         cursor.remove();
-            //     }, 1000);
-            // });
 
             let colorPicker = document.getElementById("colorPicker");
             let selectedColor = colorPicker.value;
@@ -161,7 +160,6 @@ function start() {
                 if (cesspro == 50000) {
                     cesspro = 0;
                     console.log("Task process : " + (row / rows) * 100 + " %");
-
                     await timer(1000);
                 }
             }
@@ -182,6 +180,7 @@ function start() {
                         // );
                     }
                 }
+                await document.getElementById("loading").style.display = "none";
             }
             drawGrid();
         }
