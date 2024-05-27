@@ -61,6 +61,7 @@ function start() {
         canvasWidth = 12000;
         rows = canvasHeight / gridSize;
         cols = canvasWidth / gridSize;
+        run();
         // await fetch(`${url}/api/get-pixel`)
         //     .then((res) => res.json())
         //     .then(async (res) => {
