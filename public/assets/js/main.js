@@ -2,14 +2,13 @@ const url = "https://adpixel.jimdev.id.vn";
 const canvas = document.getElementById("gameCanvas");
 const context = canvas.getContext("2d");
 let gridSize, rows, cols, grid, echo, idU;
-
-function createCursor(idU_F) {
-    let element = document.createElement("div");
-    element.setAttribute("id", idU_F);
-    element.setAttribute("class", "mouse");
-    element.innerHTML = idU_F;
-    document.getElementById("body").appendChild(element);
-}
+// function createCursor(idU_F) {
+//     let element = document.createElement("div");
+//     element.setAttribute("id", idU_F);
+//     element.setAttribute("class", "mouse");
+//     element.innerHTML = idU_F;
+//     document.getElementById("body").appendChild(element);
+// }
 function beginStart() {
     const firstNames = ["John", "Jane", "David", "Sarah", "Michael", "Emily"];
     const lastNames = [
@@ -46,14 +45,13 @@ function start() {
         host: `https://adpixel.jimdev.id.vn`,
         withCredentials: true,
     });
-    echo = window.Echo.join("pixel")
-        .here((users) => {
-            console.log("U here ", users);
-        })
-        .joining((user) => {
-            console.log("U join ", user);
-        })
-        .leaving(async (user) => {});
+    window.Echo_Two = new Echo({
+        broadcaster: "socket.io",
+        host: `https://adpixel.jimdev.id.vn`,
+        withCredentials: true,
+    });
+    echo = window.Echo.join("pixel");
+    echo_two = window.Echo_Two.join("pixel");
     window.onload = async function () {
         grid = [];
         gridSize = 5;
@@ -62,22 +60,9 @@ function start() {
         rows = canvasHeight / gridSize;
         cols = canvasWidth / gridSize;
         run();
-        // await fetch(`${url}/api/get-pixel`)
-        //     .then((res) => res.json())
-        //     .then(async (res) => {
-        //         grid = res.data;
-        //         gridSize = res.gridSize;
-        //         rows = res.rows;
-        //         cols = res.cols;
-        //         canvasHeight = res.canvasHeight;
-        //         canvasWidth = res.canvasWidth;
-        //         await run();
-        //         document.getElementById("loading").style.display = "none";
-        //     })
-        //     .catch((err) => {});
 
         function run() {
-            echo.listenForWhisper("call", (event) => {
+            echo_two.listenForWhisper("call", (event) => {
                 async function sendData() {
                     const chunkSize = 50;
                     for (let i = 0; i < grid.length; i += chunkSize) {
@@ -96,7 +81,8 @@ function start() {
                     });
                 }
                 sendData();
-            }).listenForWhisper("send-client", (event) => {
+            });
+            echo.listenForWhisper("send-client", (event) => {
                 grid[event.clickedRow][event.clickedCol] = event.selectedColor;
                 context.fillStyle = event.selectedColor;
                 context.fillRect(
@@ -116,11 +102,11 @@ function start() {
                 // }, 1000);
             });
 
-            let colorPicker = document.getElementById("colorPicker");
-            let selectedColor = colorPicker.value;
-            colorPicker.addEventListener("change", function (event) {
-                selectedColor = event.target.value;
-            });
+            // let colorPicker = document.getElementById("colorPicker");
+            // let selectedColor = colorPicker.value;
+            // colorPicker.addEventListener("change", function (event) {
+            //     selectedColor = event.target.value;
+            // });
 
             // canvas.addEventListener("mousedown", async function (event) {
             //     const audio = document.createElement("video");
