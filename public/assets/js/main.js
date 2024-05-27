@@ -159,17 +159,15 @@ function start() {
                 for (let row = 0; row < rows; row++) {
                     grid[row] = [];
                     for (let col = 0; col < cols; col++) {
+                        grid[row][col] = "#FFFFFF";
+                        context.fillStyle = grid[row][col];
+                        context.fillRect(
+                            col * gridSize,
+                            row * gridSize,
+                            gridSize,
+                            gridSize
+                        );
                         console.log(grid[row][col]);
-                        if (grid[row][col]) {
-                            grid[row][col];
-                            context.fillStyle = grid[row][col];
-                            context.fillRect(
-                                col * gridSize,
-                                row * gridSize,
-                                gridSize,
-                                gridSize
-                            );
-                        }
                     }
                 }
 
