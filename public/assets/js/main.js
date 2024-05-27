@@ -45,13 +45,13 @@ function start() {
         host: `https://adpixel.jimdev.id.vn`,
         withCredentials: true,
     });
-    window.Echo_Two = new Echo({
-        broadcaster: "socket.io",
-        host: `https://adpixel.jimdev.id.vn`,
-        withCredentials: true,
-    });
+    // window.Echo_Two = new Echo({
+    //     broadcaster: "socket.io",
+    //     host: `https://adpixel.jimdev.id.vn`,
+    //     withCredentials: true,
+    // });
     echo = window.Echo.join("pixel");
-    echo_two = window.Echo_Two.join("pixel");
+    echo_two = window.Echo.join("pixel");
     window.onload = async function () {
         grid = [];
         gridSize = 5;
