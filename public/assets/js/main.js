@@ -155,6 +155,8 @@ function start() {
                 context.clearRect(0, 0, canvasWidth, canvasHeight);
                 for (let row = 0; row < rows; row++) {
                     for (let col = 0; col < cols; col++) {
+                        console.log(grid[row][col]);
+
                         if (grid[row][col]) {
                             context.fillStyle = grid[row][col];
                             context.fillRect(
