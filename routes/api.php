@@ -19,31 +19,31 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('get-pixel', function () {
-    ini_set('memory_limit', '-1');
-    $gridSize = 5;
-    $canvasHeight = 12000;
-    $canvasWidth = 12000;
-    $rows = $canvasHeight / $gridSize;
-    $cols = $canvasWidth / $gridSize;
-    dd($rows);
-    // $data =  [];
-    // for ($row = 0; $row < $rows; $row++) {
-    //     $data[$row] = [];
-    //     for ($col = 0; $col < $cols; $col++) {
-    //         $data[$row][$col] = "#FFFFFF";
-    //     }
-    // }
-    // file_put_contents("pixel.txt", json_encode($data));
-    return response()->json([
-        "data" => json_decode(file_get_contents("pixel.txt")),
-        "gridSize" =>  $gridSize,
-        "canvasHeight" =>  $canvasHeight,
-        "canvasWidth" =>  $canvasWidth,
-        "rows" =>  $rows,
-        "cols" =>  $cols,
-    ]);
-});
+// Route::get('get-pixel', function () {
+//     ini_set('memory_limit', '-1');
+//     $gridSize = 5;
+//     $canvasHeight = 12000;
+//     $canvasWidth = 12000;
+//     $rows = $canvasHeight / $gridSize;
+//     $cols = $canvasWidth / $gridSize;
+//     dd($rows);
+//     // $data =  [];
+//     // for ($row = 0; $row < $rows; $row++) {
+//     //     $data[$row] = [];
+//     //     for ($col = 0; $col < $cols; $col++) {
+//     //         $data[$row][$col] = "#FFFFFF";
+//     //     }
+//     // }
+//     // file_put_contents("pixel.txt", json_encode($data));
+//     return response()->json([
+//         "data" => json_decode(file_get_contents("pixel.txt")),
+//         "gridSize" =>  $gridSize,
+//         "canvasHeight" =>  $canvasHeight,
+//         "canvasWidth" =>  $canvasWidth,
+//         "rows" =>  $rows,
+//         "cols" =>  $cols,
+//     ]);
+// });
 // Route::get('send-pixel', function () {
 //     $data = json_decode(Cache::getRedis()->get("pixel"));
 //     $data[request()->clickedRow][request()->clickedCol] = "#" . request()->selectedColor;
