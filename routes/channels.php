@@ -24,3 +24,6 @@ Broadcast::channel('pixel', function ($user) {
 Broadcast::channel('map_pixel', function ($user) {
     return $user;
 });
+Broadcast::channel('chat', function ($user) {
+    return $user;
+});
