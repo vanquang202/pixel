@@ -17,7 +17,7 @@ class AuthFake
     public function handle(Request $request, Closure $next): Response
     {
         $user = new User();
-        $user->id = rand();
+        $user->id = $request->header('Authorization') ?? rand();
         $user->name = "Member";
         $request->merge(['user' => $user]);
         $request->setUserResolver(function () use ($user) {
